@@ -5,6 +5,7 @@ resource "aws_instance" "server" {
     count = "${var.servers}"
     security_groups = ["${aws_security_group.consul.id}"]
     subnet_id = "${lookup(var.subnets, count.index % var.servers)}"
+    host = self.public_ip
 
     connection {
         user = "${lookup(var.user, var.platform)}"
@@ -12,7 +13,7 @@ resource "aws_instance" "server" {
     }
 
     #Instance tags
-    tags {
+    tags = {
         Name = "${var.tagName}-${count.index}"
         ConsulRole = "Server"
     }
