@@ -95,11 +95,13 @@ variable "tagName" {
 }
 
 variable "subnets" {
+  default = ""
   type = map
   description = "map of subnets to deploy your infrastructure in, must have as many keys as your server count (default 3), -var 'subnets={\"0\"=\"subnet-12345\",\"1\"=\"subnets-23456\"}' "
 }
 
 variable "vpc_id" {
+  default = ""
   type = string
   description = "ID of the VPC to use - in case your account doesn't have default VPC"
 }
