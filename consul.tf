@@ -1,11 +1,10 @@
 resource "aws_instance" "server" {
-    for_each = data.aws_subnet_ids.private.ids
     ami = "${lookup(var.ami, "${var.region}-${var.platform}")}"
     instance_type = "${var.instance_type}"
     key_name = "${var.key_name}"
     count = "${var.servers}"
     security_groups = ["${aws_security_group.consul.id}"]
-    subnet_id = each.value
+    subnet_id = "${lookup(var.subnets, count.index % var.servers)}"
     
     connection {
         user = "${lookup(var.user, var.platform)}"
